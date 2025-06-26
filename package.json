@@ -39,6 +39,7 @@
     "neverthrow": "^8.2.0",
     "postgres": "^3.4.5",
     "ts-pattern": "^5.7.0",
+    "wavefile": "^11.0.0",
     "zod": "^3.24.3",
     "zod-openapi": "^4.2.4"
   },
@@ -49,7 +50,6 @@
     "@types/node": "^22.15.3",
     "@typescript-eslint/parser": "^8.31.1",
     "@vitest/coverage-v8": "^3.1.2",
-    "drizzle-kit": "^0.31.0",
     "eslint": "^9.26.0",
     "eslint-config-prettier": "^10.1.2",
     "fishery": "^2.3.0",
