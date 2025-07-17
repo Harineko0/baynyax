@@ -19,6 +19,12 @@ const S2C_MSG_TYPE_AUDIO = 0x83;
 // --- GenAI セッション管理モジュール ---
 //=========================================================
 
+interface Blob_2 {
+    displayName?: string;
+    data?: string;
+    mimeType?: string;
+}
+
 /**
  * Google GenAIとのリアルタイムセッションをセットアップし、管理する
  * @param onAiMessage - AIからメッセージを受信したときのコールバック関数
@@ -27,12 +33,15 @@ const S2C_MSG_TYPE_AUDIO = 0x83;
 async function setupGenAISession(
     onAiMessage: (message: LiveServerMessage) => void
 ) {
-    const ai = new GoogleGenAI({ apiKey: env.GEMINI_API_KEY });
+    const ai = new GoogleGenAI({apiKey: env.GEMINI_API_KEY});
     const session = await ai.live.connect({
         model: 'gemini-2.5-flash-preview-native-audio-dialog',
         callbacks: {
             onopen: () => console.log('[GenAI] Session opened.'),
-            onmessage: onAiMessage,
+            onmessage: (e) => {
+                console.debug('[GenAI] Message received:', e);
+                onAiMessage(e);
+            },
             onerror: (e) => console.error('[GenAI] Error:', e.message),
             onclose: (e) => console.log('[GenAI] Session closed:', e.reason),
         },
@@ -47,7 +56,9 @@ async function setupGenAISession(
          * AIセッションにリアルタイムデータを送信する
          * @param data - 送信するデータ（音声または映像）
          */
-        send: (data: { audio?: any; video?: any }) => {
+        send: (data: {
+            audio?: Blob_2; video?: Blob_2
+        }) => {
             session.sendRealtimeInput(data);
         },
         /**
@@ -103,7 +114,7 @@ app.get(
             onMessage: (evt, ws) => {
                 if (!genAI) return;
 
-                const { data } = evt;
+                const {data} = evt;
 
                 // ESP32からのバイナリデータのみを処理
                 if (data instanceof Buffer && data.length >= 3) {
