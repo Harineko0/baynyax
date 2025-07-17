@@ -100,6 +100,7 @@ app.get(
 
                         // ヘッダーとペイロードを結合してクライアントに送信
                         ws.send(Buffer.concat([header, audioChunk]));
+                        console.debug('[WS] Sent audio chunk to client.');
                     }
                 };
 
