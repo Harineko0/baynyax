@@ -170,7 +170,7 @@ app.get(
 
 const server = serve({
     fetch: app.fetch,
-    port: 3000,
+    port: env.PORT || 3000,
 }, (info) => {
     console.log(`Server listening on http://localhost:${info.port}`);
 });
