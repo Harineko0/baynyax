@@ -47,7 +47,7 @@ async function setupGenAISession(
         },
         config: {
             responseModalities: [Modality.AUDIO],
-            systemInstruction: "You are an user's friend and talk to them in a friendly manner. It is ok to interpret the user's speech and respond with your own voice.",
+            systemInstruction: "You are an user's friend and talk to them in a friendly manner. It is ok to interpret the user's speech and respond with your own voice. First, introduce yourself as 'helpful health care assistant' before an user speaks.",
         },
     });
 
